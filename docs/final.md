@@ -18,7 +18,7 @@ We first implemented an on-policy learning algorithm called the State-Action-Rew
 
 
 ## Approaches
-We will provide here a brief recap of what was discussed in the "Approach" section of our status report, and then discuss our new addition.
+We will provide a brief recap of how the Sarsa algorithm is able to solve our problem definition. A more detailed description can be seen in our “Approach” section of our status report. We continue with an explanation of the Sarsa(lambda) algorithm, which was implemented after the status report.  
 
 The MDP our agent learns is a gridworld where the agent only knows its current position (represented as a tuple) and can take actions that allow it to move a single block north, east, south, or west. Our base algorithm is the "Sarsa" algorithm (which we will henceforth call "plain Sarsa" to distinguish it from the "Sarsa(lambda)" algorithm discussed later), which--for every new state visited--provides the following update rule for the Q table:
 
