@@ -7,6 +7,9 @@ title:  Final Report
 
 
 ## Project Summary
+Over the duration of this project course, we created two agents that learn to solve arbitrary mazes. Our representation of a maze in the Malmo environment is a gridworld that consists of dirt blocks over a floor of lava. The agent starts in the (0,0) block and navigates over dirt blocks to a single lapis block the “goal block” denoting the end of the maze. These mazes were generated randomly using our implementation of the randomized Prim-Jarnik minimum spanning tree algorithm which typically produces mazes that are difficult to solve.
+
+The agent’s percepts are highly limited in that it only knows its current position (represented as the coordinate position of the grid). The agent’s actions are restricted to moving one block at a time in either the North, South, East, or West direction. In order for our agent to learn how to solve a maze, we implemented two reinforcement learning algorithms that require the agent to store the reward feedback at the end of each episode and use this knowledge in its next episode. 
 
 
 ## Approaches
