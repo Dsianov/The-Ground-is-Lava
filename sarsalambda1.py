@@ -206,7 +206,7 @@ for i in range(num_repeats):
     a = eps_greedy(q_table[s].items(), 1.0/(num_visited[s]+2))
     
     breakloop = False
-    action_list = []
+    
     while world_state.is_mission_running:
         sys.stdout.write(".")
         
@@ -217,8 +217,6 @@ for i in range(num_repeats):
         #Take an action
         #print 'send command'
         agent_host.sendCommand(a)
-        action_list.append(a)
-        
         
         while True:
             time.sleep(0.1)
@@ -255,16 +253,7 @@ for i in range(num_repeats):
                     goal_count = 1
                 else:
                     goal_count += 1
-                found = True
-            #penalty for backtracking
-            #print action_list
-            if len(action_list) > 1:
-                if action_list[-1] == opposite_action[action_list[-2]]:
-                    #a_star = max(q_table[s].items(), key=lambda x: x[1])[1]
-                    #if a_star == q_table[s][a][1]:
-                    r -= 100
-                    action_list = []
-                    #print 'penalty'
+                found = True        
 
         else: #If we got no reward, something went wrong. Restart mission
             #time.sleep(0.1)
