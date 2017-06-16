@@ -7,9 +7,14 @@ title:  Final Report
 
 
 ## Project Summary
-Over the duration of this project course, we created two agents that learn to solve arbitrary mazes. Our representation of a maze in the Malmo environment is a gridworld that consists of dirt blocks over a floor of lava. The agent starts in the (0,0) block and navigates over dirt blocks to a single lapis block the “goal block” denoting the end of the maze. These mazes were generated randomly using our implementation of the randomized Prim-Jarnik minimum spanning tree algorithm which typically produces mazes that are difficult to solve.
+Over the duration of this project course, we created two agents that learn to solve arbitrary mazes. Our representation of a maze in the Malmo environment consists of dirt blocks over a floor of lava. The agent navigates over dirt blocks to a single lapis block the “goal block” denoting the end of the maze. These mazes were generated randomly using our implementation of the randomized Prim-Jarnik minimum spanning tree algorithm which typically produces mazes that are difficult to solve.
 
-The agent’s percepts are highly limited in that it only knows its current position (represented as the coordinate position of the grid). The agent’s actions are restricted to moving one block at a time in either the North, South, East, or West direction. In order for our agent to learn how to solve a maze, we implemented two reinforcement learning algorithms that require the agent to store the reward feedback at the end of each episode and use this knowledge in its next episode. 
+The Markov Decision Process (MDP) we used to model the environment is comparable to a gridworld. Each block of the maze is represented as a coordinate position (a tuple of integers which are in the form (int+0.5, int+0.5) in the actual code) on the grid. Each state is a position on the grid and an agent can transition to a future state by moving one block at a time on the grid in either the north, south, east or west direction. The agent’s actions are restricted to a move in any of these four directions and of the form “move [direction] 1" (i.e. strings, which are discrete Malmo movement commands). An episode in the MDP ends when the agent reaches the goal block or dies by entering lava. 
+
+The agent’s percepts are highly limited in that it only knows its current position (the coordinate position of the grid). Consequently, the agent has no field of vision and does not know if there is a goal state. Thus our agent is forced to gain its knowledge by iterating through multiple episodes on the same maze. After numerous episodes, the agent learns the sequence of actions that will return the highest reward which made equivalent to reaching the goal block. 
+ 
+We first implemented an on-policy learning algorithm called the State-Action-Reward-State-Action (Sarsa) algorithm to learn the MDP policy. This was completed and analyzed in our status report (status.md). To build upon our approach we decided to implement another on-policy learning algorithm called Sarsa(lambda), which adds “eligibility” traces to the Sarsa algorithm. In order to compare the results of our two algorithms we used the problem definition defined above for both. 
+
 
 
 ## Approaches
