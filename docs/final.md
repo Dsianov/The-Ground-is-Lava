@@ -32,9 +32,13 @@ We implemented a new algorithm, Sarsa(lambda), which incorporats the notion of "
 
 <img src="e_update.PNG">
 
-The first update equation states that we increment the E table entry for a state-action pair any time we use it and is otherwise updated according to the second update equation where gamma is the same discount factor described before and lambda is a parameter (between 0 and 1). It controls how much "credit" we would like to give to states far back in the past. The E table entry for s and a (The "eligibility trace" for s/a) measures "how far away" a given previously used state-action pair is from a current state s'. With this, we can take the reward for s' and not only update Q table for the previous state, but every visited state s up to that point with the following equation:
+We increment the E table entry for a state-action pair any time we use it and otherwise update it according to the following update equation: 
 
-Q(s,a) = Q(s,a) + alpha*(r + gamma*Q(s',a') - Q(s, a))*E(s,a)
+E(s,a) = gamma\*lambda\*E(s,a)
+
+where gamma is the same discount factor described before and lambda is a parameter (between 0 and 1) that controls how much "credit" we would like to give to states in the past. As a result of these update equations, the E table entry for s and a (The "eligibility trace" for s/a) measures "how far away" a given previously used state-action pair is from a current state s'. With this, we can take the reward for s' and not only update Q table for the previous state, but every visited state s up to that point with the following equation:
+
+Q(s,a) = Q(s,a) + alpha\*(r + gamma\*Q(s',a') - Q(s, a))\*E(s,a)
 
 which is the same update equation for plain Sarsa except that the error is multiplied by the eligibility trace for s/a. Thanks to the manner in which eligibility traces are updated, we change the Q value for s/a by an amount inversely proportional to "how far back in the past" it is (which is what our E table measures). In other words, we "attribute" the reward gained at the current state to s based on how far back in the past it was. A state-action pair is "more eligible" for the reward gained at the current state if it was more closely related to it. Note: The eligibility trace is higher not only if the state was more recently visited, but more frequently visited. Our agent does not repeat states that often (though sometimes it does) so we are more focused on the "time"-based factor of it.
 
