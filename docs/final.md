@@ -28,12 +28,11 @@ Everything described thus far is implemented in the file "sarsa1.py", with minis
 
 The mazes are generated using a randomized Prim-Jarnik minimum spanning tree algorithm, as described here: https://en.wikipedia.org/wiki/Maze_generation_algorithm#Randomized_Prim.27s_algorithm. This is implemented in maze_gen2.py (and subsequently called in the malmo files).
 
-We continued our exploration of the maze solving problem by requiring our agent to additionally store "eligibility traces", thus turning our algorithm from plain Sarsa into what is called "Sarsa(lambda)". Thus, the agent will learn information by maintaining a Q table and an E table.  The E table is updated for every used state-action pair after every action. We increment the E table entry for a state-action pair any time we use it, and is otherwise updated according to the following equation:
+We continued our exploration of the maze solving problem by requiring our agent to additionally store "eligibility traces", thus turning our algorithm from plain Sarsa into what is called "Sarsa(lambda)". Thus, the agent will learn information by maintaining a Q table and an E table.  The E table is updated for every used state-action pair after every action according to the following equation:
 
 <img src="e_update.PNG">
-E(s,a)= gamma*lambda*E(s,a)
 
-where gamma is the same discount factor described before and lambda is a parameter (between 0 and 1) controlling how much "credit" we would like to give to states far back in the past. The E table entry for s and a (The "eligibility trace" for s/a) measures "how far away" a given previously used state-action pair is from a current state s'. With this, we can take the reward for s' and not only update Q table for the previous state, but every visited state s up to that point with the following equation:
+The first update equation states that we increment the E table entry for a state-action pair any time we use it and is otherwise updated according to the second update equation where gamma is the same discount factor described before and lambda is a parameter (between 0 and 1). It controls how much "credit" we would like to give to states far back in the past. The E table entry for s and a (The "eligibility trace" for s/a) measures "how far away" a given previously used state-action pair is from a current state s'. With this, we can take the reward for s' and not only update Q table for the previous state, but every visited state s up to that point with the following equation:
 
 Q(s,a) = Q(s,a) + alpha*(r + gamma*Q(s',a') - Q(s, a))*E(s,a)
 
