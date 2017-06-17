@@ -34,7 +34,8 @@ The Sarsa(lambda) algorithm differs from the Sarsa algorithm by requiring the ag
 
 The first update equation states that if the E table entry is the current state-action pair then we increment it by 1. All other E table entries are updated according to the second update equation, which states that the eligibility trace for a state decays at a rate of gamma\*lambda. Gamma is the discount factor previously described in the Sarsa algorithm and lambda is the decay parameter, a value between 0 and 1 that controls how much "credit" is given to states in the past. The E table entry for s and a (The "eligibility trace" for s/a) measures "how far away" a given previously used state-action pair is from a current state s'. With this, we can take the reward for s' and not only update Q table for the previous state, but every visited state s up to that point with the following equation:
 
-Q(s,a) = Q(s,a) + alpha\*(r + gamma\*Q(s',a') - Q(s, a))\*E(s,a)
+
+<img src="updt1.png">
 
 which is the same update equation for plain Sarsa except that the error is multiplied by the eligibility trace for s/a. Thanks to the manner in which eligibility traces are updated, we change the Q value for s/a by an amount inversely proportional to "how far back in the past" it is (which is what our E table measures). In other words, we "attribute" the reward gained at the current state to s based on how far back in the past it was. A state-action pair is "more eligible" for the reward gained at the current state if it was more closely related to it. Note: The eligibility trace is higher not only if the state was more recently visited, but more frequently visited. Our agent does not repeat states that often (though sometimes it does) so we are more focused on the "time"-based factor of it.
 
