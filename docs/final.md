@@ -4,7 +4,7 @@ title:  Final Report
 ---
 
 ## Video
-
+<iframe width="854" height="480" src="https://www.youtube.com/embed/d0A0KWDp4gE" frameborder="0" allowfullscreen></iframe>
 
 ## Project Summary
 Over the duration of this project course, we created an agent that learn to solve arbitrary mazes. Our representation of a maze in the Malmo environment consists of dirt blocks over a floor of lava. The agent's objective is to navigate over the dirt blocks to a single lapis block the “goal block” which denotes the end of the maze. These mazes were generated randomly using our implementation of the randomized Prim-Jarnik minimum spanning tree algorithm which typically produces mazes that are difficult to solve.
@@ -28,15 +28,11 @@ Everything described thus far is implemented in the file "sarsa1.py", with minis
 
 The mazes are generated using a randomized Prim-Jarnik minimum spanning tree algorithm, as described here: https://en.wikipedia.org/wiki/Maze_generation_algorithm#Randomized_Prim.27s_algorithm. This is implemented in maze_gen2.py (and subsequently called in the malmo files).
 
-We implemented a new algorithm, Sarsa(lambda), which incorporats the notion of "eligibility traces." We maintain an "E table" containing an entry for every state-action pair, and the value associated with an entry measures how "eligible" a state-action pair is for the reward obtained at a current state. The E table is updated for every used state-action pair after every action according to the following equation:
+The Sarsa(lambda) algorithm differs from the Sarsa algorithm by requiring the agent to have both a forward and backward view (we discuss the latter in this report). The algorithm implements this by requiring the agent to store a Q table and an E table which contains information about "eligibility traces". The eligibilty traces keep track of the states that have been recently visited and are a measure how "eligible" a given state is for an update at time t. The entries of the E table are a state-action pair that have been carryed out by the agent and an associated e value. After every action, the E table updates the e value for every state-action pair entry according the following equation:
 
 <img src="e_update.PNG">
 
-We increment the E table entry for a state-action pair any time we use it and otherwise update it according to the following update equation: 
-
-E(s,a) = gamma\*lambda\*E(s,a)
-
-where gamma is the same discount factor described before and lambda is a parameter (between 0 and 1) that controls how much "credit" we would like to give to states in the past. As a result of these update equations, the E table entry for s and a (The "eligibility trace" for s/a) measures "how far away" a given previously used state-action pair is from a current state s'. With this, we can take the reward for s' and not only update Q table for the previous state, but every visited state s up to that point with the following equation:
+The first update equation states that if the E table entry is the current state-action pair then we increment it by 1. All other E table entries are updated according to the second update equation, which states that the eligibility trace for a state decays at a rate of gamma\*lambda. Gamma is the discount factor previously described in the Sarsa algorithm and lambda is the decay parameter, a value between 0 and 1 that controls how much "credit" is given to states in the past. The E table entry for s and a (The "eligibility trace" for s/a) measures "how far away" a given previously used state-action pair is from a current state s'. With this, we can take the reward for s' and not only update Q table for the previous state, but every visited state s up to that point with the following equation:
 
 Q(s,a) = Q(s,a) + alpha\*(r + gamma\*Q(s',a') - Q(s, a))\*E(s,a)
 
@@ -45,22 +41,15 @@ which is the same update equation for plain Sarsa except that the error is multi
 This is implemented in the file "sarsalambda1.py" All in all, this required only a few additional lines of code to the original Sarsa algorithm (In fact, we could have consolidated plain Sarsa and Sarsa(lambda) into one file). However, it made a huge difference in the agent's performance as discussed in the Evaluation section.
  
 ## Evaluation
-In contrast to our evaluation from the status report, we have gathered additional data, and now have comparisons to make. We measure the performance of our agent based on the number of episodes it takes to converge, where we define "convergence" as reaching the goal state 3 times in a row.
-
-The following graph says it all:
-
-Above rewritten (In order to further analyze and interpret the results that we had obtained from running our Sarsa algorithm, we gathered data on our Sarsa(lambda) algorithm and compared their statistics. 
-Our primary evaluation measure was examining the performance of each agent. We defined “convergence” as reaching the goal state 3 times in a row and recorded the number of episodes the agent takes to converge. We tested this with numerous iterations on both algorithms and took the average number of episodes that a given agent and environment took to converge. We also varied the environment size, all of which is displayed in the following graph:)
+In order to further our evaluation from the status report, we gathered data on our Sarsa(lambda) algorithm and to compare to the results obtained from running our Sarsa algorithm. Our primary evaluation measure was examining the performance of each agent. We defined “convergence” as reaching the goal state 3 times in a row and recorded the number of episodes the agent takes to converge. We tested this on both algorithms for a varity of maze sizes and our results are displayed in the following graph:
 
 <img src="Graph.png">
 
-Sarsa(lambda) appears to drastically outperform plain Sarsa on our MDP. The intuitive reasoning for this, we believe, is simply that eligibility traces allow the reward for a given state to propogate backwards. Consider the following toy example:
-
-Above rewritten (Sarsa(lambda) appears to drastically outperform plain Sarsa on our Markov Decision Process. Our intuition leads us to believe that the reasoning for this outcome is that eligibility traces allow the reward for a given state to propagate backwards. Let us examine a simple example that demonstrates the property of backtracking to previous states if a path results in a poor reward. 
-Consider the environment pictured below, where the red box is lava and the white boxes signify the dirt blocks of the maze. Recall that our agent starts in the state (0,0) and has the objective to end in the goal block (marked in green).)
-
+Sarsa(lambda) appears to drastically outperform plain Sarsa on our MDP. 
+Our intuition leads us to believe that the reasoning for this outcome is that eligibility traces allow the reward for a given state to propagate backwards. Let us examine a simple example that demonstrates this by considering the environment pictured below, where the red box is the start state lava, the white boxes signify the dirt blocks of the maze, and the green block is the goal state:
 
 <img src="Maze ex.png">
+
 
 Obviously, the better decision from the start state is to move north to the goal (marked in green) than moving east to a dead-end (lava). Suppose the agent tends to move all the way east and fall into the lava (moving east from the start state, falling into (6,0) is the actually best option). In Sarsa(lambda), the negative reward obtained from doing so immediately propogates back to the state-action pair (0,0)-east, as an immediate consequence of the update rule. Hence, the agent sees that (0,0)-east (and likewise, (1,0)-east, (2,0)-east, etc.) is a bad idea quite quickly, and will prefer to try going north instead sooner. On the other hand, in plain Sarsa, only the state-action pair (5,0)-east immediately gets the negative reward. For the negative reward to propogate back to (0,0)-east the agent has to revisit (5,0)-east, which updates the value for (4,0)-east, restart, then revisit (4,0)-east, which updates the value for (3,0)-east, then revisit (3,0)-east, etc. Thus, it can take up to 5 extra episodes for (0,0)-east to be properly updated in Sarsa, while for Sarsa(lambda) it only takes 1 (Likewise, the positive reward obtained at the goal state propogates back faster in Sarsa(lambda) than it does for Sarsa). Now consider this for not just the start state, but every position in the maze, and it becomes clear why Sarsa(lambda) takes much fewer episodes to converge.
 
@@ -71,3 +60,5 @@ We noted in our status report that we would like to test our agent(s) on larger 
 Introduction to Reinforcement Learning, 3rd Edition. Richard S. Sutton and Andrew G. Barto
 
 https://en.wikipedia.org/wiki/Maze_generation_algorithm#Randomized_Prim.27s_algorithm
+
+http://classes.engr.oregonstate.edu/mime/fall2008/me539/Lectures/ME539-w6-RL2_notes.pdf
