@@ -51,8 +51,8 @@ In order to further our evaluation from the status report, we gathered data on o
 
 <img src="Graph.png">
 
-Sarsa(lambda) appears to drastically outperform plain Sarsa on our MDP. The intuitive reasoning for this, we believe, is simply that eligibility traces allow the reward for a given state to propogate backwards. Consider the toy example below, where the red box is the start state lava, the white boxes signify the dirt blocks of the maze, and the green block is the goal state:
-
+Sarsa(lambda) appears to drastically outperform plain Sarsa on our MDP. 
+Our intuition leads us to believe that the reasoning for this outcome is that eligibility traces allow the reward for a given state to propagate backwards. Let us examine a simple example that demonstrates this by considering the environment pictured below, where the red box is the start state lava, the white boxes signify the dirt blocks of the maze, and the green block is the goal state:
 
 <img src="Maze ex.png">
 
