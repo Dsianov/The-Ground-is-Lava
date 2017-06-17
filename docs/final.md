@@ -66,3 +66,5 @@ We noted in our status report that we would like to test our agent(s) on larger 
 Introduction to Reinforcement Learning, 3rd Edition. Richard S. Sutton and Andrew G. Barto
 
 https://en.wikipedia.org/wiki/Maze_generation_algorithm#Randomized_Prim.27s_algorithm
+
+http://classes.engr.oregonstate.edu/mime/fall2008/me539/Lectures/ME539-w6-RL2_notes.pdf
