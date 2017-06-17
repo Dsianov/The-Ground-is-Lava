@@ -55,6 +55,8 @@ Our primary evaluation measure was examining the performance of each agent. We d
 
 (LOL WE STILL NEED MORE DATA SO NO GRAPH YET BUT IT'S ALREADY PRETTY OBVIOUS THAT SARSA(LAMBDA) IS BETTER)
 
+<img src="Graph.png">
+
 Sarsa(lambda) appears to drastically outperform plain Sarsa on our MDP. The intuitive reasoning for this, we believe, is simply that eligibility traces allow the reward for a given state to propogate backwards. Consider the following toy example:
 
 Above rewritten (Sarsa(lambda) appears to drastically outperform plain Sarsa on our Markov Decision Process. Our intuition leads us to believe that the reasoning for this outcome is that eligibility traces allow the reward for a given state to propagate backwards. Let us examine a simple example that demonstrates the property of backtracking to previous states if a path results in a poor reward. 
