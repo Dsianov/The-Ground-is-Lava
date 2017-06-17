@@ -5,7 +5,7 @@ title:  Final Report
 
 ## Video
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/d0A0KWDp4gE" frameborder="0" allowfullscreen></iframe>
+<iframe width="854" height="480" src="https://www.youtube.com/embed/d0A0KWDp4gE" frameborder="0" allowfullscreen></iframe>
 
 ## Project Summary
 Over the duration of this project course, we created an agent that learn to solve arbitrary mazes. Our representation of a maze in the Malmo environment consists of dirt blocks over a floor of lava. The agent's objective is to navigate over the dirt blocks to a single lapis block the “goal block” which denotes the end of the maze. These mazes were generated randomly using our implementation of the randomized Prim-Jarnik minimum spanning tree algorithm which typically produces mazes that are difficult to solve.
