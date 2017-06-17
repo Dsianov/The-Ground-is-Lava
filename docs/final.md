@@ -22,7 +22,7 @@ Our problem definition requires our agent to learn in a gridworld where it only 
 
 <img src="updt2.png">
 
-where s' is the state arrived at by taking action a from s, and a' is the action chosen from state s(t+1) according to an epsilon greedy policy. As usual, r denotes the reward, alpha functions as learning rate, and gamma functions as the discount factor. Our epsilon-greedy policy randomly chooses an action from state s with probability 1/N(s) where N(s) is the number of times we've visited state s, and otherwise chooses an action greedily. We also discussed the crucial "Manhattan distance" heuristic we endowed the agent with, in which we discount states by their distance from the start state, in order to encourage the agent to move in the direction of the goal.
+where s' is the state arrived at by taking action a from s, and a' is the action chosen from state s' according to an epsilon greedy policy. As usual, r denotes the reward, alpha functions as learning rate, and gamma functions as the discount factor. Our epsilon-greedy policy randomly chooses an action from state s with probability 1/N(s) where N(s) is the number of times we've visited state s, and otherwise chooses an action greedily. We also discussed the crucial "Manhattan distance" heuristic we endowed the agent with, in which we discount states by their distance from the start state, in order to encourage the agent to move in the direction of the goal.
 
 Everything described thus far is implemented in the file "sarsa1.py", with miniscule changes since the status report.
 
