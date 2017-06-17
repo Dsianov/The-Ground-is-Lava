@@ -28,7 +28,11 @@ Everything described thus far is implemented in the file "sarsa1.py", with minis
 
 The mazes are generated using a randomized Prim-Jarnik minimum spanning tree algorithm, as described here: https://en.wikipedia.org/wiki/Maze_generation_algorithm#Randomized_Prim.27s_algorithm. This is implemented in maze_gen2.py (and subsequently called in the malmo files).
 
-We implemented a new algorithm, Sarsa(lambda), which incorporats the notion of "eligibility traces." We maintain an "E table" containing an entry for every state-action pair, and the value associated with an entry measures how "eligible" a state-action pair is for the reward obtained at a current state. The E table is updated for every used state-action pair after every action according to the following equation:
+We continued our exploration of the maze solving problem by turning our algorithm from plain Sarsa into what is called "Sarsa(lambda)". The two algorithms differ in the way they determine the value of a state. The Sarsa algorithm requires the agent to store a Q table. Since the equation to update the Q values is based on future states, the information the agent gains is called a forward view. This simply means that when determining the value of a state, the agent only considers how far ahead it needs to look to find it. On the contrary, a backward view considers how many state-action pairs need to be stored when determining the value of a state. A visual representation of these two properties is shown below.
+
+<img src="forward_backward.PNG">
+
+The Sarsa(lambda) algorithm differs from the Sarsa algorithm by requiring the agent to have both a forward and backward view. The algorithm implements this by requiring the agent to store a Q table and an E table which contains information about "eligibility traces". The eligibilty traces keep track of the states that have been recently visited and are a measure how "eligible" a given state is for an update at time t. The entries of the E table are a state-action pair that have been carryed out by the agent and an associated e value. After every action, the E table updates the e value for every state-action pair entry according the following equation:
 
 <img src="e_update.PNG">
 
