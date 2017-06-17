@@ -47,9 +47,7 @@ which is the same update equation for plain Sarsa except that the error is multi
 This is implemented in the file "sarsalambda1.py" All in all, this required only a few additional lines of code to the original Sarsa algorithm (In fact, we could have consolidated plain Sarsa and Sarsa(lambda) into one file). However, it made a huge difference in the agent's performance as discussed in the Evaluation section.
  
 ## Evaluation
-In contrast to our evaluation from the status report, we have gathered additional data, and now have comparisons to make. We measure the performance of our agent based on the number of episodes it takes to converge on each maze size, where we define "convergence" as reaching the goal state 3 times in a row.
-
-The following graph says it all:
+In order to further our evaluation from the status report, we gathered data on our Sarsa(lambda) algorithm and to compare to the results obtained from running our Sarsa algorithm. Our primary evaluation measure was examining the performance of each agent. We defined “convergence” as reaching the goal state 3 times in a row and recorded the number of episodes the agent takes to converge. We tested this on both algorithms for a varity of maze sizes and our results are displayed in the following graph:
 
 <img src="Graph.png">
 
