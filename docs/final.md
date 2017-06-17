@@ -18,7 +18,7 @@ We first implemented an on-policy learning algorithm called the State-Action-Rew
 ## Approaches
 We will provide a brief recap of how the Sarsa algorithm is able to solve mazes in the Malmo environment. A more detailed description can be seen in our “Approach” section of our status report. We continue with an explanation of the Sarsa(lambda) algorithm, which was implemented after the status report.  
 
-Our problem definition requires our agent to learn in a gridworld where it only knows its current position and can take actions that will allow it to move a single block north, south, east, or west. Our base algorithm is the "Sarsa algorithm" (which we will henceforth call "plain Sarsa" to distinguish it from the "Sarsa(lambda)" algorithm discussed later), which the agent uses to learn the optimal MDP policy, which is simply a sequence of actions that maximize the summation of future rewards. For each visited state state-action pair the Sarsa algorithm updates the Q values (adding new states to the Q table as they are discovered) according to the following update rule:
+Our problem definition requires our agent to learn in a gridworld where it only knows its current position and can take actions that will allow it to move a single block north, south, east, or west. Our base algorithm is the "Sarsa algorithm" (which we will henceforth call "plain Sarsa" to distinguish it from the "Sarsa(lambda)" algorithm discussed later), which the agent uses to learn the optimal MDP policy, which is simply a sequence of actions that maximize the summation of future rewards. For each state-action pair the Sarsa algorithm updates the Q values (adding new states to the Q table as they are discovered) according to the following update rule:
 
 <img src="updt2.png">
 
