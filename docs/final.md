@@ -18,7 +18,7 @@ We first implemented an on-policy learning algorithm called the State-Action-Rew
 ## Approaches
 We will provide a brief recap of how the Sarsa algorithm is able to solve mazes in the Malmo environment. A more detailed description can be seen in our “Approach” section of our status report. We continue with an explanation of the Sarsa(lambda) algorithm, which was implemented after the status report.  
 
-Our problem definition requires our agent to learn in a gridworld where it only knows its current position and can take actions that will allow it to move a single block north, south, east, or west. Our base algorithm is the "Sarsa algorithm" (which we will henceforth call "plain Sarsa" to distinguish it from the "Sarsa(lambda)" algorithm discussed later), which the agent uses to learn the optimal MDP policy, which is simply a sequence of actions that maximize the summation of future rewards. For each visited state at time step t the agent updates the Q values (adding new states to the Q table as they are discovered) according to the following update rule provided by the Sarsa algorithm:
+Our problem definition requires our agent to learn in a gridworld where it only knows its current position and can take actions that will allow it to move a single block north, south, east, or west. Our base algorithm is the "Sarsa algorithm" (which we will henceforth call "plain Sarsa" to distinguish it from the "Sarsa(lambda)" algorithm discussed later), which the agent uses to learn the optimal MDP policy, which is simply a sequence of actions that maximize the summation of future rewards. For each visited state state-action pair the Sarsa algorithm updates the Q values (adding new states to the Q table as they are discovered) according to the following update rule:
 
 <img src="updt2.png">
 
@@ -28,7 +28,7 @@ Everything described thus far is implemented in the file "sarsa1.py", with minis
 
 The mazes are generated using a randomized Prim-Jarnik minimum spanning tree algorithm, as described here: https://en.wikipedia.org/wiki/Maze_generation_algorithm#Randomized_Prim.27s_algorithm. This is implemented in maze_gen2.py (and subsequently called in the malmo files).
 
-The Sarsa(lambda) algorithm differs from the Sarsa algorithm by requiring the agent to have both a forward and backward view (we discuss the latter in this report). The algorithm implements this by requiring the agent to store not only a Q table but an E  whose entries are called "eligibility traces." The eligibilty traces are a measure how "eligible" a given state-action pair is for an update at the current point in time. Upon using a state-action pair s'/a', we increment its E table entry:
+The Sarsa(lambda) algorithm differs from the Sarsa algorithm by requiring the agent to have both a forward and backward view (we discuss the latter in this report). The algorithm implements this by requiring the agent to store a Q table and an E table which contains information about "eligibility traces". The eligibilty traces keep track of the states that have been recently visited and are a measure how "eligible" a given state is for an update at time t. The entries of the E table are a state-action pair that have been carryed out by the agent and an associated e value. Upon using a state-action pair s', a', we increment its E table entry:
 
 <img src="updt3.png">
 
@@ -36,7 +36,7 @@ And subsequently update the E table entries for every state s,a (including s=s' 
 
 <img src="updt4.png">
 
-The eligibility trace for a state decays at a rate of gamma\*lambda. Gamma is the discount factor previously described in the Sarsa algorithm and lambda is the decay parameter, a value between 0 and 1 that controls how much "credit" is given to states in the past. The E table entry for s and a (The "eligibility trace for s/a") measures "how far away" a given previously used state-action pair is from a current state s'. With this, we can take the reward for s' and not only update Q table for the previous state, but every visited state s up to that point with the following equation:
+The eligibility trace for a state decays at a rate of gamma\*lambda. Gamma is the discount factor previously described in the Sarsa algorithm and lambda is the decay parameter, a value between 0 and 1 that controls how much "credit" is given to states in the past. The E table entry for s and a (The "eligibility trace" for s/a) measures "how far away" a given previously used state-action pair is from a current state s'. With this, we can take the reward for s' and not only update Q table for the previous state, but every visited state s up to that point with the following equation:
 
 
 <img src="updt1.png">
