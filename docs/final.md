@@ -45,22 +45,17 @@ which is the same update equation for plain Sarsa except that the error is multi
 This is implemented in the file "sarsalambda1.py" All in all, this required only a few additional lines of code to the original Sarsa algorithm (In fact, we could have consolidated plain Sarsa and Sarsa(lambda) into one file). However, it made a huge difference in the agent's performance as discussed in the Evaluation section.
  
 ## Evaluation
-In contrast to our evaluation from the status report, we have gathered additional data, and now have comparisons to make. We measure the performance of our agent based on the number of episodes it takes to converge, where we define "convergence" as reaching the goal state 3 times in a row.
+In contrast to our evaluation from the status report, we have gathered additional data, and now have comparisons to make. We measure the performance of our agent based on the number of episodes it takes to converge on each maze size, where we define "convergence" as reaching the goal state 3 times in a row.
 
 The following graph says it all:
 
-Above rewritten (In order to further analyze and interpret the results that we had obtained from running our Sarsa algorithm, we gathered data on our Sarsa(lambda) algorithm and compared their statistics. 
-Our primary evaluation measure was examining the performance of each agent. We defined “convergence” as reaching the goal state 3 times in a row and recorded the number of episodes the agent takes to converge. We tested this with numerous iterations on both algorithms and took the average number of episodes that a given agent and environment took to converge. We also varied the environment size, all of which is displayed in the following graph:)
-
 <img src="Graph.png">
 
-Sarsa(lambda) appears to drastically outperform plain Sarsa on our MDP. The intuitive reasoning for this, we believe, is simply that eligibility traces allow the reward for a given state to propogate backwards. Consider the following toy example:
-
-Above rewritten (Sarsa(lambda) appears to drastically outperform plain Sarsa on our Markov Decision Process. Our intuition leads us to believe that the reasoning for this outcome is that eligibility traces allow the reward for a given state to propagate backwards. Let us examine a simple example that demonstrates the property of backtracking to previous states if a path results in a poor reward. 
-Consider the environment pictured below, where the red box is lava and the white boxes signify the dirt blocks of the maze. Recall that our agent starts in the state (0,0) and has the objective to end in the goal block (marked in green).)
+Sarsa(lambda) appears to drastically outperform plain Sarsa on our MDP. The intuitive reasoning for this, we believe, is simply that eligibility traces allow the reward for a given state to propogate backwards. Consider the toy example below, where the red box is the start state lava, the white boxes signify the dirt blocks of the maze, and the green block is the goal state:
 
 
 <img src="Maze ex.png">
+
 
 Obviously, the better decision from the start state is to move north to the goal (marked in green) than moving east to a dead-end (lava). Suppose the agent tends to move all the way east and fall into the lava (moving east from the start state, falling into (6,0) is the actually best option). In Sarsa(lambda), the negative reward obtained from doing so immediately propogates back to the state-action pair (0,0)-east, as an immediate consequence of the update rule. Hence, the agent sees that (0,0)-east (and likewise, (1,0)-east, (2,0)-east, etc.) is a bad idea quite quickly, and will prefer to try going north instead sooner. On the other hand, in plain Sarsa, only the state-action pair (5,0)-east immediately gets the negative reward. For the negative reward to propogate back to (0,0)-east the agent has to revisit (5,0)-east, which updates the value for (4,0)-east, restart, then revisit (4,0)-east, which updates the value for (3,0)-east, then revisit (3,0)-east, etc. Thus, it can take up to 5 extra episodes for (0,0)-east to be properly updated in Sarsa, while for Sarsa(lambda) it only takes 1 (Likewise, the positive reward obtained at the goal state propogates back faster in Sarsa(lambda) than it does for Sarsa). Now consider this for not just the start state, but every position in the maze, and it becomes clear why Sarsa(lambda) takes much fewer episodes to converge.
 
