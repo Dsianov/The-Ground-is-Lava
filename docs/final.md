@@ -28,7 +28,11 @@ Everything described thus far is implemented in the file "sarsa1.py", with minis
 
 The mazes are generated using a randomized Prim-Jarnik minimum spanning tree algorithm, as described here: https://en.wikipedia.org/wiki/Maze_generation_algorithm#Randomized_Prim.27s_algorithm. This is implemented in maze_gen2.py (and subsequently called in the malmo files).
 
-We continued our exploration of the maze solving problem by requiring our agent to additionally store "eligibility traces", thus turning our algorithm from plain Sarsa into what is called "Sarsa(lambda)". Thus, the agent will learn information by maintaining a Q table and an E table.  The E table is updated for every used state-action pair after every action according to the following equation:
+We continued our exploration of the maze solving problem by turning our algorithm from plain Sarsa into what is called "Sarsa(lambda)". In Sarsa the agent is only has a forward view meaning it only considers how far ahead it needs to look in order to determine the value of a state. The Sarsa(lambda) algorithm differs from Sarsa by requiring our agent to also have a backward view which means how many state-action pairs need to be stored to determine the value of a state. A visual representation of these two properties is shown below.
+
+<img src="forward_backward.PNG">
+
+Sarsa(lambda) implements both the forward view and the backward view by requiring the agent to store not only the Q table but also  information about "eligibility traces". The eligibilty traces table (E table) keeps track of which states have been recently visited and the value associated measures how "eligible" a state is for an update at any time t. The E table is updated for every used state-action pair after every action according to the following equation:
 
 <img src="e_update.PNG">
 
