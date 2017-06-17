@@ -32,7 +32,7 @@ We implemented a new algorithm, Sarsa(lambda), which incorporats the notion of "
 
 <img src="e_update.PNG">
 
-We increment the E table entry for a state-action pair any time we use it and otherwise update it according to the following update equation: 
+In other words, ee increment the E table entry for a state-action pair any time we use it and otherwise update it according to the following update equation: 
 
 E(s,a) = gamma\*lambda\*E(s,a)
 
